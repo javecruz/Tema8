@@ -166,7 +166,9 @@ public class Main {
        if(cIni.get(Calendar.MONTH)==cFin.get(Calendar.MONTH) && cIni.get(Calendar.DAY_OF_MONTH)==cFin.get(Calendar.DAY_OF_MONTH)){
        
            System.out.println("ES EL CUMPLE DE ALGUIEN ...");
-       if ((cFin.get(Calendar.MONTH) >= cIni.get(Calendar.MONTH)) && (cFin.get(Calendar.DAY_OF_MONTH) >= cIni.get(Calendar.DAY_OF_MONTH))) {
+           
+           
+       if ( cFin.get(Calendar.MONTH) >= cIni.get(Calendar.MONTH) ||(cFin.get(Calendar.MONTH) >= cIni.get(Calendar.MONTH)) && (cFin.get(Calendar.DAY_OF_MONTH) >= cIni.get(Calendar.DAY_OF_MONTH))) {
               dif =cFin.get(Calendar.YEAR) - cIni.get(Calendar.YEAR);
         } else {
               dif = cFin.get(Calendar.YEAR) - cIni.get(Calendar.YEAR) - 1;
@@ -178,16 +180,24 @@ public class Main {
     
     
     public static ArrayList<Contacto> leerFichero() throws IOException, ClassNotFoundException{
-    
+        
         File f = new File("Agenda.txt");
         
         if(!f.exists()){
-        EscrituraFicheroEjecutarUNAvez random = new EscrituraFicheroEjecutarUNAvez();
+        //EscrituraFicheroEjecutarUNAvez random = new EscrituraFicheroEjecutarUNAvez();
+             ArrayList<Contacto> agenda = new ArrayList<Contacto>();
+    
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Agenda.txt"));
+            
+      
+            oos.writeObject(agenda);
+            
+            oos.close();
         }
         
         
     ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Agenda.txt"));
-    
+        
     return (ArrayList<Contacto>) ois.readObject();
     
     
