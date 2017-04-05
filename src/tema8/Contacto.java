@@ -6,6 +6,11 @@
 package tema8;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -16,15 +21,16 @@ public class Contacto implements Serializable {
   private String nombre;
   private String direccion;
   private int telefono;
-  private String fnacimiento; // formato ejemplo yyyy/MM/dd 1989/03/26
+  private Date fnacimiento; // formato ejemplo yyyy/MM/dd 1989/03/26
   private String notas;
   
-  public Contacto(String nombre, String direccion, int telefono, String fnacimiento, String notas){
-  
+  public Contacto(String nombre, String direccion, int telefono, String fnacimiento, String notas) throws ParseException{
+      SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
       this.nombre = nombre;
       this.direccion = direccion;
       this.telefono = telefono;
-      this.fnacimiento = fnacimiento;
+      // el parametro que le entra es string, lo que hace esto es coger esa string y pasarlo a date en un formato dado
+      this.fnacimiento = df.parse(fnacimiento);
       this.notas = notas;
       
   }
@@ -32,9 +38,14 @@ public class Contacto implements Serializable {
   
   @Override
   public String toString() {
+  Calendar bienHecho = new GregorianCalendar();
+  //bienHecho.setTime(this.fnacimiento);
+  SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
   
   
-  return "Nombre:\t " + nombre + "\nDirección:\t " + direccion + "\nTeléfono:\t " + telefono + "\nFecha de Nacimiento:\t " + fnacimiento + "\nNotas:\t " + notas;
+    return "Nombre:\t " + nombre + "\nDirección:\t " + direccion + "\nTeléfono:\t " + telefono + "\nFecha de Nacimiento:\t " + df.format(fnacimiento) + "\nNotas:\t " + notas;
+
+  //return "Nombre:\t " + nombre + "\nDirección:\t " + direccion + "\nTeléfono:\t " + telefono + "\nFecha de Nacimiento:\t " + "El año es: " + bienHecho.get(Calendar.YEAR) + " el mes es " + bienHecho.get(Calendar.MONTH) + " y el dia es " + bienHecho.get(Calendar.DAY_OF_MONTH) + "\nNotas:\t " + notas;
   
   }
 
@@ -83,16 +94,14 @@ public class Contacto implements Serializable {
     /**
      * @return the fnacimiento
      */
-    public String getFnacimiento() {
+    public Date getFnacimiento() {
         return fnacimiento;
     }
 
     /**
      * @param fnacimiento the fnacimiento to set
      */
-    public void setFnacimiento(String fnacimiento) {
-        this.fnacimiento = fnacimiento;
-    }
+   
 
     /**
      * @return the notas

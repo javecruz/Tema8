@@ -24,6 +24,7 @@ public class Main {
         int opt = 0;  // controla menu
         
         
+        // BUSCA cumpleaños, si no hay nada en agenda no entra a ver si hoy es el cumpleaños de alguien..
         if(agenda.isEmpty()==false){
             
             SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
@@ -32,9 +33,9 @@ public class Main {
             
             for(Contacto p:agenda){
             
-            fnac = df.parse(p.getFnacimiento());
+            //fnac = df.parse(p.getFnacimiento());
             
-            num = check(fnac);
+            num = check(p.getFnacimiento());
             
             if(num>0){
                 System.out.println("Es el cumpleaños de: " + p.getNombre());
@@ -52,8 +53,9 @@ public class Main {
         
         
         
-        
+        // menu, saldrá de este do while cuando le demos al 4
         do {
+            //validador de opcion menu
             do {
                 System.out.println("\t\t\tMENU PRINCIPAL");
                 System.out.println("\t1 = Consultar contacto por nombre");
@@ -72,7 +74,8 @@ public class Main {
             } while (opt < 1 || opt > 4);
 
             switch (opt) {
-
+                
+                //busca un contacto por nombre
                 case 1:
                     System.out.println("Dame el nombre para buscar la info del contacto");
                     String nomAux = tec.nextLine();
@@ -90,6 +93,7 @@ public class Main {
                     }
                     break;
 
+                      // borra contacto por nombre
                 case 2:
 
                     System.out.println("Dame el nombre para borrar el contacto");
@@ -108,6 +112,8 @@ public class Main {
                     }
                     break;
 
+                    
+                        //introduce nuevo contacto 
                 case 3:
                     
                     System.out.println("Dame el nombre"); 
@@ -120,8 +126,10 @@ public class Main {
                     int telefono = tec.nextInt();
                     tec.nextLine(); // consumo linea
                     
+                    //en el constructor el String pasa a Date, ya que el atributo de clase es de tipo Date
                     System.out.println("Dame la fecha formato yyyy/MM/dd");
                     String fnacimiento = tec.nextLine(); // formato ejemplo yyyy/MM/dd 1989/03/26, NO VOY A CONTROLAR EL FORMATO....
+                    
                     
                     System.out.println("Escribe cualquier nota");
                     String notas = tec.nextLine();
@@ -137,13 +145,13 @@ public class Main {
 
         } while (opt != 4);
 
-        // ha salido del mundo, asi que ahora vuelco la info a un fichero
+        // ha salido del menu, asi que ahora vuelco la info a un fichero
         
            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Agenda.txt"));
             
             //escribo la lista entera 
             oos.writeObject(agenda);
-            
+            //cierro fichero
             oos.close();
         
         
@@ -151,7 +159,7 @@ public class Main {
     }
    
     
-    
+    // este método mira si es el cumpleaños de alguien
     public static int check(Date fnacimiento){
     
     int dif = 0;
@@ -167,7 +175,7 @@ public class Main {
        
            System.out.println("ES EL CUMPLE DE ALGUIEN ...");
            
-           
+           // esto mira los meses para saber si
        if ( cFin.get(Calendar.MONTH) >= cIni.get(Calendar.MONTH) ||(cFin.get(Calendar.MONTH) >= cIni.get(Calendar.MONTH)) && (cFin.get(Calendar.DAY_OF_MONTH) >= cIni.get(Calendar.DAY_OF_MONTH))) {
               dif =cFin.get(Calendar.YEAR) - cIni.get(Calendar.YEAR);
         } else {
