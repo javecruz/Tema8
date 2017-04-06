@@ -1,10 +1,9 @@
 package tema8;
 
-import java.io.BufferedWriter;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,6 +11,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
@@ -61,17 +62,19 @@ public class Main {
                 System.out.println("\t1 = Consultar contacto por nombre");
                 System.out.println("\t2 = Eliminar contacto por nombre");      // no voy a controlar si hay mas con 1 del mismo nombre, en ese caso eliminaría contactos por otro atributo o combinación de atributus ej: nombre + fnacimiento
                 System.out.println("\t3 = Añadir Contacto");
-                System.out.println("\t4 = Salir");
+                System.out.println("\t4 = Imprime lista sin ordenar.");
+                System.out.println("\t5 = Imprime lista ordenada");
+                System.out.println("\t6 = Salir");
 
                 opt = tec.nextInt();
                 // consumo linea
                 tec.nextLine();
 
-                if (opt < 1 || opt > 4) {
+                if (opt < 1 || opt > 6) {
                     System.out.println("ERROR, vuelva introducir");
                 }
 
-            } while (opt < 1 || opt > 4);
+            } while (opt < 1 || opt >6);
 
             switch (opt) {
                 
@@ -141,9 +144,45 @@ public class Main {
                     System.out.println("Contacto añadido.");
                     break;
 
+                case 4:
+                    
+                    // lista sin ordenar
+                    System.out.println("LISTA SIN ORDENAR");
+                    for(Contacto c:agenda){                
+                        System.out.println(c.toString()+"\n\n");                 
+                    }
+                    
+                    break;
+                    
+                    
+                case 5:
+                    // lista ordenada, no modifico el original asi sé que funciona comparando los 2 tipos de lista, (ordenada y sin ordenar)
+                    System.out.println("LISTA ORDENADA");
+                    ArrayList<Contacto> agendaOrdenada = new ArrayList<Contacto>(agenda);
+                    
+                    Collections.sort(agendaOrdenada, new Comparator<Contacto>() {
+                    public int compare(Contacto v1, Contacto v2) {
+                    return v1.getNombre().compareTo(v2.getNombre());
+                                      }
+                            });
+                    
+                    
+                    
+                     for(Contacto c:agendaOrdenada){                
+                        System.out.println(c.toString()+"\n\n");                 
+                    }
+                    
+                    
+                    break;
+                    
+               
+                    
             }
+            
+            
+            
 
-        } while (opt != 4);
+        } while (opt != 6);
 
         // ha salido del menu, asi que ahora vuelco la info a un fichero
         
